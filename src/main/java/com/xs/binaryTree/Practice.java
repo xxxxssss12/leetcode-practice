@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Practice {
-
+    private short ui;
     private static int nodeLimit = 32;
     private static  Random random = new Random();
     private static List<Node<Integer>> nodeList = new ArrayList<>();
