@@ -95,3 +95,5 @@ segmentShift与segmentMask都是在构造过程中根据concurrency level被相�
 如果并发度设置的过小，会带来严重的锁竞争问题；如果并发度设置的过大，
 原本位于同一个Segment内的访问会扩散到不同的Segment中，CPU cache命中率会下降，从而引起程序性能下降。
 （文档的说法是根据你并发的线程数量决定，太多会导性能降低）
+
+#### 未完待续
