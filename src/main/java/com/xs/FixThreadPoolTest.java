@@ -3,6 +3,7 @@ package com.xs;
 
 import org.springframework.util.StopWatch;
 
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -15,6 +16,7 @@ public class FixThreadPoolTest {
     static Executor executor = Executors.newFixedThreadPool(2);
 
     public static void main(String[] args) throws InterruptedException {
+        HashMap map;
         StopWatch stopWatch = new StopWatch();
         stopWatch.start("test1");
         Thread.sleep(5000);
