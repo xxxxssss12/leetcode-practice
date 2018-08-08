@@ -126,3 +126,15 @@ linux IO模型：五种。
 * IO multiplexing（多路复用IO）
 * signal driven IO（信号驱动式IO）
 * asynchronous IO（异步IO）
+<p>
+nio:多路复用 一个selector管理多个channel。要使用Selector，得向Selector注册Channel，然后调用它的select()方法。
+这个方法会一直阻塞到某个注册的通道有事件就绪。一旦这个方法返回，线程就可以处理这些事件，事件的例子有如新连接进来，数据接收等。
+</p>
+<p>
+reactor模型：个人认为和发布-订阅、观察者模式类似。
+服务A告诉观察者我要监听这个端口的读事件。
+观察者发现读事件发生时，将读到数据放到buffer中，通知服务A。
+响应式嘛。
+</p>
+
+### 12. 反射的原理，反射创建类实例的三种方式是什么。
