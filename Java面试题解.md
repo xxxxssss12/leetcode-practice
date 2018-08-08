@@ -38,7 +38,7 @@ String c = a + b;
 String d = a + b;
 System.out.println(c == d); // false
 ```
-编译器已经优化了a+b了，但是还是不太智能哦。
+编译器已经优化了a+b了，但是还是不太智能哦。(一个表达式就来一套StringBuilderxxx)
 
 ### 4. ArrayList 和 LinkedList 有什么区别。
 
@@ -222,3 +222,24 @@ class C {
 直接在父类中覆盖hashcode和equals呗。。
 * 优：继承了这个类的子类的equals逻辑保持一致，满足特定业务需求
 * 劣：这俩方法实现不好容易血崩
+
+### 20. 请结合 OO 设计理念，谈谈访问修饰符 public、 private、 protected、 default 在应用设计中的作用。
+面向对象七大原则：
+1. 单一职责原则（Single Responsibility Principle）：每一个类应该专注于做一件事情。
+2. 里氏替换原则（Liskov Substitution Principle）：超类存在的地方，子类是可以替换的。
+3. 依赖倒置原则（Dependence Inversion Principle）：实现尽量依赖抽象，不依赖具体实现。
+4. 接口隔离原则（Interface Segregation Principle）：应当为客户端提供尽可能小的单独的接口，而不是提供大的总的接口。
+5. 迪米特法则（Law Of Demeter）：又叫最少知识原则，一个软件实体应当尽可能少的与其他实体发生相互作用。
+6. 开闭原则（Open Close Principle）：面向扩展开放，面向修改关闭。
+7. 组合/聚合复用原则（Composite/Aggregate Reuse Principle CARP）：尽量使用合成/聚合达到复用，尽量少用继承。原则： 一个类中有另一个类的对象。
+
+* 对于1。。纯粹编码风格；
+* 对于2。。interface，extends存在的价值
+* 对于3。。interface
+* 对于4。。private
+* 对于5。。private/protect
+* 对于6。。private?
+* 对于7。。...
+
+public大家都能访问；private只有自己能访问；protected只有子类能访问，default只有同一个包中的类能访问。
+能根据实际情况进行很好的业务隔离，访问隔离。高内聚低耦合
