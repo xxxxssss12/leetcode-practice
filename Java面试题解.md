@@ -126,6 +126,7 @@ linux IO模型：五种。
 * IO multiplexing（多路复用IO）
 * signal driven IO（信号驱动式IO）
 * asynchronous IO（异步IO）
+
 <p>
 nio:多路复用 一个selector管理多个channel。要使用Selector，得向Selector注册Channel，然后调用它的select()方法。
 这个方法会一直阻塞到某个注册的通道有事件就绪。一旦这个方法返回，线程就可以处理这些事件，事件的例子有如新连接进来，数据接收等。
@@ -138,3 +139,86 @@ reactor模型：个人认为和发布-订阅、观察者模式类似。
 </p>
 
 ### 12. 反射的原理，反射创建类实例的三种方式是什么。
+* 反射定义：在运行状态中，对于任意一个类，都能够知道这个类的属性和方法；对于任意一个对象，都能够调用它的任何方法和属性。
+* 作用：给定类的名字，就可以通过反射机制来获取类的所有信息，可以动态的创建对象和编译。
+* 原理：其实A.class文件中就有这个类的一切信息。所以在类加载器加载对象的时候，就会将这些信息存在方法区中。
+
+反射创建类实例的三种方式：
+1. p.getClass();
+2. Integer.class;
+3. Class.forName("java.lang.Integer");
+
+### 13. 反射中， Class.forName 和 ClassLoader 区别
+Class.forName源码：
+```java
+Class<?> caller = Reflection.getCallerClass();
+return forName0(className, true, ClassLoader.getClassLoader(caller), caller);
+```
+可看出，forName用的classLoader和正常类加载不太一样，是直接指定classLoader为Reflection.getCallerClass()的classLoader。
+<br>
+class.forName()前者除了将类的.class文件加载到jvm中之外，还会对类进行解释，执行类中的static块。
+<br>
+而classLoader只干一件事情，就是将.class文件加载到jvm中，不会执行static中的内容,只有在newInstance才会去执行static块。
+
+### 14. 描述动态代理的几种实现方式，分别说出相应的优缺点。
+1. java自带Proxy，只能作用在接口上。但是可以很好的实现代理和业务逻辑解耦。
+2. cglib代理。直接修改字节码文件，缺点是不能代理final class
+
+动态代理缺陷：同类中不同方法之间相互调用，只有第一个方法能被代理。
+
+### 15. 动态代理与 cglib 实现的区别
+动态代理是一种"设计模式"。
+cglib是实现这种设计模式的工具。
+至于动态代理的两种实现方式已经在14描述了。
+
+### 16. 为什么 CGlib 方式可以对接口实现代理。
+创建一个继承实现类的子类，用asm库动态修改子类的代码，所以可以用传入的类引用执行代理类，所以可以对接口代理。
+
+### 17. final 的用途
+1. 被final修饰的类不可以被继承
+2. 被final修饰的方法不可以被重写
+3. 被final修饰的变量不可以被改变
+
+### 18. 写出三种单例模式实现
+no.1
+```java
+class A {
+    private static final A instance = new A();
+    private A() {}
+    public static getInstance() {return instance;}
+}
+``` 
+no.2
+```java
+class B {
+    private B() {}
+    private final volatile static B instance;
+    public static getInstance() {
+        if (instance == null) {
+            synchronized (B.class) {
+                if (instance == null) {
+                    instance = new B();
+                }
+            }
+        }
+        return instance;
+    }
+}
+```
+no.3
+```java
+class C {
+    private C() {}
+    private static class LazyHolder {    
+        private static final Singleton INSTANCE = new Singleton();    
+    }    
+    public static getInstance() {
+        return LazyHolder.INSTANCE;
+    }
+}
+```
+
+### 19.如何在父类中为子类自动完成所有的 hashcode 和 equals 实现？这么做有何优劣。
+直接在父类中覆盖hashcode和equals呗。。
+* 优：继承了这个类的子类的equals逻辑保持一致，满足特定业务需求
+* 劣：这俩方法实现不好容易血崩
