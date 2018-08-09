@@ -243,3 +243,90 @@ class C {
 
 public大家都能访问；private只有自己能访问；protected只有子类能访问，default只有同一个包中的类能访问。
 能根据实际情况进行很好的业务隔离，访问隔离。高内聚低耦合
+
+### 21. 深拷贝和浅拷贝区别。
+* 浅拷贝：仅仅拷贝引用
+* 深拷贝：直接将引用对应的堆中的值copy一份，并将新引用指向该值
+
+### 22. 数组和链表数据结构描述，各自的时间复杂度
+* 数组一般在内存上连续，所以通过首位指针+下标*偏移量即可找到对应数据，list.get(i)的时间复杂度为O(1)；
+但是插入的时候，需要将该下标之后的数全部往后偏移一位（给这个变量挪位置），才能保证在内存上依然连续，所以时间复杂度为O(n);
+* 链表的每个节点在物理上不连续，只是前后有关联，所以在通过下标get数据的时候，需要从头节点开始遍历，时间复杂度为O(n)；
+但是插入的时候，只需要重新建立插入节点前后节点关系即可，所以时间复杂度是O(1)。
+
+### 23. error 和 exception 的区别， CheckedException， RuntimeException 的区别。
+Error类和Exception类都继承自Throwable类。
+异同：
+* Exception：
+1. 可以是可被控制(checked) 或不可控制的(unchecked)。
+2. 表示一个由程序员导致的错误。
+3. 应该在应用程序级被处理。
+
+* Error：
+1. 总是不可控制的(unchecked)。
+2. 经常用来用于表示系统错误或低层资源的错误。
+3. 如何可能的话，应该在系统级被捕捉。
+
+Java 提供了两种Exception 的模式，一种是执行的时候所产生的Exception (Runtime Exception)，另外一种则是受控制的Exception (Checked Exception)。
+所有的Checked Exception 均从java.lang.Exception 继承而来，而Runtime Exception 则继承java.lang.RuntimeException 或java.lang.Error (实际上java.lang.RuntimeException 的上一层也是java.lang.Exception)。
+Java认为Checked异常都是可以被处理（修复）的异常，所以Java程序必须显示处理Checked异常。如果程序没有处理Checked异常，该程序在编译时就会发生错误，无法通过编译。
+Runtime异常无需显式声明抛出，如果程序需要捕捉Runtime异常，也可以使用try...catch块来捕捉Runtime异常。
+
+### 24. 请列出 5 个运行时异常。
+FileNotFoundException, NullPointException, IndexOutOfBoundsException, NumberFormatException, IOException
+
+### 25.在自己的代码中，如果创建一个java.lang.String 类，这个类是否可以被类加载器加载？为什么
+不能。双亲委派模型，有专门加载java.lang包的类加载器；有专门加载外部jar包的类加载器，加载外部类的类加载器加载java.lang会抛异常。
+
+### 26. 说一说你对 java.lang.Object 对象中 hashCode 和 equals 方法的理解。在什么场景下需要重新实现这两个方法。
+hashCode是Jvm为了快速找到一个对象而为它生成的哈希码。equals默认实现是比较两个对象的hashCode是否相等。
+在需要自己实现自己的equals的逻辑的时候，需要重新实现这两个方法。
+
+Java语言对设计equal()有五个必须遵循的要求。
+1. 对称性。若 a.equal(b) 返回”true”, 则 b.equal(a) 也必须返回 “true”.
+2. 反射性。a.equal(a) 必须返回”true”.
+3. 传递性。若a.equal(b) 返回 “true”, 且 b.equal(c)返回 “true”, 则c.equal(a)必返回”true”.
+4. 一致性。若a.equal(b) 返回”true”, 只要a, b内容不变，不管重复多少次a.equal(b)必须返回”true”.
+5. 任何情况下，a.equals(null)，永远返回是“false”；a.equals(和a不同类型的对象)永远返回是“false”.
+
+hashCode()的返回值和equals()的关系：
+1. 如果a.equals(b)返回“true”，那么a和b的hashCode()必须相等。
+2. 如果a.equals(b)返回“false”，那么a和b的hashCode()有可能相等，也有可能不等。
+
+### 27. 在 jdk1.5 中，引入了泛型，泛型的存在是用来解决什么问题。
+用来限制入参类型。可以保障数据安全，减少重复代码，将异常控制在编译期。
+
+### 28. 这样的 a.hashcode() 有什么用，与 a.equals(b)有什么关系。
+哪样啊
+
+### 29. 有没有可能 2 个不相等的对象有相同的 hashcode。
+可能啊，相当可能，尤其是自己实现的
+比如：
+```java
+Integer a = new Integer(10);
+Integer b = new Integer(10);
+System.out.println(a.hashCode() == b.hashCode());
+System.out.println(a == b);
+```
+输出为：<br>
+true<br>
+false<br>
+
+### 30. Java 中的 HashSet 内部是如何工作的。
+HashSet内部实际上就是复用HashMap。只是光拿key来用了。
+所以原理可以参考hashMap。
+通过对变量进行hash来指定变量存放的位置。
+hash冲突则拉链；如果链表长度超过8，将该链表转为红黑树。
+hash表内数据量超过容量的3/4则resize，将容量*2，并重新计算其中每个变量的hash值
+
+### 31. 什么是序列化，怎么序列化，为什么序列化，反序列化会遇到什么问题，如何解决。
+* 序列化：将对象的状态信息转换为可以存储或传输的形式的过程。
+* 怎么序列化？实现 Serializable接口；然后使用一个输出流(如：FileOutputStream)来构造一个ObjectOutputStream(对象流)对象，
+接着，使用ObjectOutputStream对象的writeObject(Object obj)方法就可以将参数为obj的对象写出(即保存其状态)，要恢复的话则用输入流。
+* 为什么序列化？序列化与反序列化是让Java对象脱离Java运行环境的一种手段，可以有效的实现多平台之间的通信、对象持久化存储。
+* 反序列化会遇到什么问题，如何解决。serialVersionUID随机生成问题。如果不给序列化对象赋值serialVersionUID，则其会随机生成。如果在序列化后修改类结构，会导致反序列化抛异常。解决：赋值serialVersionUID
+
+### 32.  java8 的新特性。
+自行百度。
+
+# JVM知识
