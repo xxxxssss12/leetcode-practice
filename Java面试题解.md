@@ -478,3 +478,23 @@ server:启动慢，编译更完全，编译器是自适应编译器，效率高�
 <br>
 client:快速启动，内存占用少，编译快，针对桌面应用程序优化，为在客户端环境中减少启动时间而优化；
 
+### -Xms512m -Xmx512m
+堆最小内存512，最大内存512
+
+### -Xss1024K
+栈
+
+### -XX:PermSize=256m -XX:MaxPermSize=512m
+永久代初始大小256m，最大512m。java8已经去掉了，换成了metaSpace。
+
+### -XX:MaxTenuringThreshold=20
+经历过多少次gc移到老年代。
+
+### -XX:CMSInitiatingOccupancyFraction=80
+设定CMS在对内存占用率达到80%的时候开始GC
+
+### -XX:+UseCMSInitiatingOccupancyOnly
+只使用设定的回收阈值(上面指定的70%),如果不指定,JVM仅在第一次使用设定值,后续则自动调整。
+
+# 开源框架知识
+## 简单讲讲 tomcat 结构，以及其类加载器流程，线程模型等。
