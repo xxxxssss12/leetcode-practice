@@ -497,7 +497,7 @@ client:快速启动，内存占用少，编译快，针对桌面应用程序优�
 只使用设定的回收阈值(上面指定的70%),如果不指定,JVM仅在第一次使用设定值,后续则自动调整。
 
 # 开源框架知识
-## 简单讲讲 tomcat 结构，以及其类加载器流程，线程模型等。
+## 1.简单讲讲 tomcat 结构，以及其类加载器流程，线程模型等。
 ### tomcat结构
 ![avatar](./src/tomcat_all.gif)
 <br>
@@ -515,6 +515,64 @@ Common ClassLoader作为Catalina ClassLoader和Shared ClassLoader的parent，而
 <br>
 commonClassLoader加载的是${catalina.base}/lib,${catalina.base}/lib/*.jar,${catalina.home}/lib,${catalina.home}/lib/*.jar
 <br>
-WebappClassLoader内部重写了loadClass和findClass方法，默认靠自己来加载web应用内部的资源。
+每个webapp会新建一个WebappClassLoader，其内部重写了loadClass和findClass方法，默认靠自己来加载web应用内部的资源。()
 
-##
+## 2. tomcat 如何调优，涉及哪些参数。
+```
+export JAVA_OPTS="
+-server 
+-XX:PermSize=128M 
+-XX:MaxPermSize=256M 
+-Dcom.sun.management.jmxremote 
+-Dcom.sun.management.jmxremote.port=8999 
+-Dcom.sun.management.jmxremote.ssl=false 
+-Dcom.sun.management.jmxremote.authenticate=false 
+-Djava.rmi.server.hostname=127.0.0.1"
+```
+```xml
+<Executor 
+    name="tomcatThreadPool" 
+    namePrefix="catalina-exec-"
+    maxThreads="500" 
+    minSpareThreads="100" 
+    prestartminSpareThreads = "true"
+    maxQueueSize = "100"
+/>
+```
+
+```xml
+<Connector 
+     executor="tomcatThreadPool"
+     port="8080" 
+     protocol="org.apache.coyote.http11.Http11Nio2Protocol" 
+     connectionTimeout="20000" 
+     maxConnections="10000" 
+     redirectPort="8443" 
+     enableLookups="false" 
+     acceptCount="100" 
+     maxPostSize="10485760" 
+     compression="on" 
+     disableUploadTimeout="true" 
+     compressionMinSize="2048" 
+     acceptorThreadCount="2" 
+     compressableMimeType="text/html,text/xml,text/plain,text/css,text/javascript,application/javascript" 
+     URIEncoding="utf-8"
+/>
+```
+
+## 3. 讲讲 Spring 加载流程。
+过。
+
+## 4. Spring AOP 的实现原理。
+1. cglib字节码增强
+2. java原生动态代理。
+
+## 5. 讲讲 Spring 事务的传播属性。
+Propagation ：　　key属性确定代理应该给哪个方法增加事务行为。这样的属性最重要的部份是传播行为。有以下选项可供使用：
+* PROPAGATION_REQUIRED--支持当前事务，如果当前没有事务，就新建一个事务。这是最常见的选择。
+* PROPAGATION_SUPPORTS--支持当前事务，如果当前没有事务，就以非事务方式执行。
+* PROPAGATION_MANDATORY--支持当前事务，如果当前没有事务，就抛出异常。
+* PROPAGATION_REQUIRES_NEW--新建事务，如果当前存在事务，把当前事务挂起。
+* PROPAGATION_NOT_SUPPORTED--以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。
+* PROPAGATION_NEVER--以非事务方式执行，如果当前存在事务，则抛出异常。
+* PROPAGATION_NESTED--Nested的事务和他的父事务是相依的，他的提交是要等和他的父事务一块提交的。也就是说，如果父事务最后回滚，他也要回滚的。而Nested事务的好处是他有一个savepoint。
