@@ -498,3 +498,23 @@ client:快速启动，内存占用少，编译快，针对桌面应用程序优�
 
 # 开源框架知识
 ## 简单讲讲 tomcat 结构，以及其类加载器流程，线程模型等。
+### tomcat结构
+![avatar](./src/tomcat_all.gif)
+<br>
+Tomcat 的心脏是两个组件：Connector 和 Container。Connector 组件是可以被替换，这样可以提供给服务器设计者更多的选择，因为这个组件是如此重要，不仅跟服务器的设计的本身，而且和不同的应用场景也十分相关，所以一个 Container 可以选择对应多个 Connector。
+多个 Connector 和一个 Container 就形成了一个 Service，Service 的概念大家都很熟悉了，有了 Service 就可以对外提供服务了，但是 Service 还要一个生存的环境，必须要有人能够给她生命、掌握其生死大权，那就非 Server 莫属了。所以整个 Tomcat 的生命周期由 Server 控制。
+<br>
+### 类加载：
+![avatar](https://upload-images.jianshu.io/upload_images/6715251-b21326fe843cce9c.png)
+<br>
+Common ClassLoader作为Catalina ClassLoader和Shared ClassLoader的parent，而Shared ClassLoader又可能存在多个children类加载器WebApp ClassLoader，
+一个WebApp ClassLoader实际上就对应一个Web应用，那Web应用就有可能存在Jsp页面，这些Jsp页面最终会转成class类被加载，因此也需要一个Jsp的类加载器，就是图中的JasperLoder。
+<br>
+需要注意的是，在代码层面Catalina ClassLoader、Shared ClassLoader、Common ClassLoader对应的实体类实际上都是URLClassLoader或者SecureClassLoader，
+一般我们只是根据加载内容的不同和加载父子顺序的关系，在逻辑上划分为这三个类加载器；而WebApp ClassLoader和JasperLoader都是存在对应的类加载器类的。
+<br>
+commonClassLoader加载的是${catalina.base}/lib,${catalina.base}/lib/*.jar,${catalina.home}/lib,${catalina.home}/lib/*.jar
+<br>
+WebappClassLoader内部重写了loadClass和findClass方法，默认靠自己来加载web应用内部的资源。
+
+##
