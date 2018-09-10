@@ -576,3 +576,4 @@ Propagation ：　　key属性确定代理应该给哪个方法增加事务行�
 * PROPAGATION_NOT_SUPPORTED--以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。
 * PROPAGATION_NEVER--以非事务方式执行，如果当前存在事务，则抛出异常。
 * PROPAGATION_NESTED--Nested的事务和他的父事务是相依的，他的提交是要等和他的父事务一块提交的。也就是说，如果父事务最后回滚，他也要回滚的。而Nested事务的好处是他有一个savepoint。
+
