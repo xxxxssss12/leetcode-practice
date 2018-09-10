@@ -1,5 +1,9 @@
 package com.xs.callable;
 
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionInterceptor;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,12 +28,16 @@ public class CallableTest {
         System.out.println("耗时" + (System.currentTimeMillis() - startTime));
     }
 }
+
 class CallThread implements Callable<Integer> {
 
     private int index;
+
     CallThread(Integer index) {
         this.index = index;
     }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public Integer call() throws Exception {
         Thread.sleep(10000);
