@@ -577,3 +577,11 @@ Propagation ：　　key属性确定代理应该给哪个方法增加事务行�
 * PROPAGATION_NEVER--以非事务方式执行，如果当前存在事务，则抛出异常。
 * PROPAGATION_NESTED--Nested的事务和他的父事务是相依的，他的提交是要等和他的父事务一块提交的。也就是说，如果父事务最后回滚，他也要回滚的。而Nested事务的好处是他有一个savepoint。
 
+## 6. Spring 如何管理事务的。
+TransactionManager。简单来说，保证一个事务中只用同一个数据库连接即可。
+
+## 7. Spring如何配置事务
+过。。
+
+## 8. 说说你对 Spring 的理解，非单例注入的原理?它的生命周期?循环注入的原理，aop 的实现原理，说说 aop 中的几个术语，它们是怎么相互工作的。
+spring就一容器，帮你管理业务中的bean。生命周期参考LifeCycle和LifecycleProcessor的方法，
