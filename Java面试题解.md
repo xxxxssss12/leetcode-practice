@@ -584,4 +584,49 @@ TransactionManager。简单来说，保证一个事务中只用同一个数据�
 过。。
 
 ## 8. 说说你对 Spring 的理解，非单例注入的原理?它的生命周期?循环注入的原理，aop 的实现原理，说说 aop 中的几个术语，它们是怎么相互工作的。
-spring就一容器，帮你管理业务中的bean。生命周期参考LifeCycle和LifecycleProcessor的方法，
+spring就一容器，帮你管理业务中的bean。生命周期参考LifeCycle和LifecycleProcessor的方法，<br>
+循环依赖原理是分步加载，解决方案如下：
+```java
+class A {
+    @Autowired
+    B b;
+}
+class B {
+    @Autowired
+    A a;
+}
+class BeanHolder {
+    Map<String, Object> beanMap = new HashMap<>();
+    public static void main(String[] str) {
+        A a = new A();
+        B b = new B();
+        beanMap.put("a", a);
+        beanMap.put("b", b);
+        a.b = beanMap.get("b");
+        b.a = beanMap.get("a");
+    }
+}
+```
+在Spring中有三个map，在DefaultSingletonBeanRegistry中。
+* singletonObjects          final map
+* singletonFactories        
+* earlySingletonObjects     second map
+```java
+protected Object getSingleton(String beanName, boolean allowEarlyReference) {
+    Object singletonObject = this.singletonObjects.get(beanName);
+    if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
+        synchronized (this.singletonObjects) {
+            singletonObject = this.earlySingletonObjects.get(beanName);
+            if (singletonObject == null && allowEarlyReference) {
+                ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
+                if (singletonFactory != null) {
+                    singletonObject = singletonFactory.getObject();
+                    this.earlySingletonObjects.put(beanName, singletonObject);
+                    this.singletonFactories.remove(beanName);
+                }
+            }
+        }
+    }
+    return singletonObject;
+}
+```

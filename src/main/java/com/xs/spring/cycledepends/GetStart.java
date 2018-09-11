@@ -3,6 +3,8 @@ package com.xs.spring.cycledepends;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.List;
+
 /**
  * Created by xs on 2018/9/10
  */
@@ -13,5 +15,6 @@ public class GetStart {
         beanA.test();
         BeanB beanB = applicationContext.getBean(BeanB.class);
         beanB.test();
+
     }
 }
