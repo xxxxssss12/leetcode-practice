@@ -13,28 +13,29 @@ public class Demo {
         int l=low;
         int h=high;
         int povit=arr[low];
-        while(l<h) {
-            while(l<h&&arr[h]>=povit)
+        while(l < h) {
+            while(l < h && arr[h] >= povit)
                 h--;
-            if(l<h){
-                int temp=arr[h];
-                arr[h]=arr[l];
-                arr[l]=temp;
+            if(l < h){
+                int temp = arr[h];
+                arr[h] = arr[l];
+                arr[l] = temp;
                 l++;
             }
-            while(l<h&&arr[l]<=povit)
+            while(l < h && arr[l] <= povit)
                 l++;
-            if(l<h){
-                int temp=arr[h];
-                arr[h]=arr[l];
-                arr[l]=temp;
+            if(l < h){
+                int temp = arr[h];
+                arr[h] = arr[l];
+                arr[l] = temp;
                 h--;
             }
+
         }
         System.out.println(JSON.toJSONString(arr));
-        System.out.print("l="+(l+1)+"h="+(h+1)+"povit="+povit+"\n");
-        if(l>low)sort(arr,low,l-1);
-        if(h<high)sort(arr,l+1,high);
+        System.out.println("l=" + (l+1) + " \th=" + (h+1) + " \tpovit=" + povit);
+        if(l > low)sort(arr,low,l-1);
+        if(h < high)sort(arr,l+1,high);
     }
 
     public static void main(String[] args) {
