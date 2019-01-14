@@ -1,6 +1,7 @@
 package com.xs.rocketmq;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
 import com.alibaba.rocketmq.client.producer.SendResult;
@@ -23,26 +24,30 @@ public class Producer {
 
         //调用start()方法启动一个producer实例
         producer.start();
+        JSONObject obj = new JSONObject();
+        obj.put("consumeId",1050427421);
+        obj.put("repaymentId", 84510993);
+        obj.put("bankcardId", 5336799);
+        obj.put("investorId", 195);
+        obj.put("bussType", "HAHAHA");
 
         //发送10条消息到Topic为TopicTest，tag为TagA，消息内容为“Hello RocketMQ”拼接上i的值
-        for (int i = 0; i < 1; i++) {
+//        for (int i = 0; i < 1; i++) {
             try {
-                Message msg = new Message("consume_clearing_update_topic",// topic
+                Message msg = new Message("normal_withhold_topic_beta",// topic
                         "a",// tag
-                        ("test" + i).getBytes(RemotingHelper.DEFAULT_CHARSET)// body
+                        obj.toJSONString().getBytes()
                 );
-
                 //调用producer的send()方法发送消息
                 //这里调用的是同步的方式，所以会有返回结果
                 SendResult sendResult = producer.send(msg);
-
                 //打印返回结果，可以看到消息发送的状态以及一些相关信息
                 System.out.println("sendResult:" + JSON.toJSONString(sendResult));
             } catch (Exception e) {
                 e.printStackTrace();
                 Thread.sleep(1000);
             }
-        }
+//        }
 
         //发送完消息之后，调用shutdown()方法关闭producer
         producer.shutdown();
