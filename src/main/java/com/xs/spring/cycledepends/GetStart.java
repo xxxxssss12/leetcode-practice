@@ -11,9 +11,9 @@ import java.util.List;
 public class GetStart {
     public static void main(String[] args) {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(BeanA.class, BeanB.class);
-        BeanA beanA = applicationContext.getBean(BeanA.class);
+        BeanA beanA = (BeanA) applicationContext.getBean("beanA");
         beanA.test();
-        BeanB beanB = applicationContext.getBean(BeanB.class);
+        BeanB beanB = (BeanB) applicationContext.getBean("beanB");
         beanB.test();
 
     }

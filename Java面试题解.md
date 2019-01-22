@@ -585,7 +585,8 @@ TransactionManager。简单来说，保证一个事务中只用同一个数据�
 
 ## 8. 说说你对 Spring 的理解，非单例注入的原理?它的生命周期?循环注入的原理，aop 的实现原理，说说 aop 中的几个术语，它们是怎么相互工作的。
 spring就一容器，帮你管理业务中的bean。生命周期参考LifeCycle和LifecycleProcessor的方法，<br>
-循环依赖原理是分步加载，解决方案如下：
+### 解决循环依赖
+原理是分步加载，解决方案如下：
 ```java
 class A {
     @Autowired
@@ -630,3 +631,6 @@ protected Object getSingleton(String beanName, boolean allowEarlyReference) {
     return singletonObject;
 }
 ```
+aop有两种实现方式：java自身API/cglib。原理是字节码中，在方法前后加逻辑。
+
+## 9. Springmvc 中 DispatcherServlet 初始化过程。
