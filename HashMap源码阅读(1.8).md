@@ -123,9 +123,14 @@ final Node<K,V>[] resize() {
                     ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
                 else { 
                   	// 如果该节点后面还有节点，保持顺序?loHead,loTail,hiHead,hiTail都是啥？
+                  	
                   	/**
+                  	* 
 比如oldCap=8,hash是3，11，19，27时，(e.hash & oldCap)的结果是0，8，0，8，这样3，19组成新的链表，index为3；而11，27组成新的链表，新分配的index为3+8；
                   	  */
+                  	// 进行链表复制
+                    // 方法比较特殊： 它并没有重新计算元素在数组中的位置
+                    // 而是采用了 原始位置加原数组长度的方法计算得到位置
                     Node<K,V> loHead = null, loTail = null;
                     Node<K,V> hiHead = null, hiTail = null;
                     Node<K,V> next;
