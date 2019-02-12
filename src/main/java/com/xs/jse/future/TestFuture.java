@@ -1,13 +1,21 @@
 package com.xs.jse.future;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
 /**
  * Created by xs on 2019/1/28
  */
 public class TestFuture implements Callable<BeanA> {
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        FutureTask<BeanA> task = new FutureTask<>(new TestFuture());
+        new Thread(task).start();
+        System.out.println("线程启动");
+        BeanA a = task.get();
+        System.out.println("线程结束");
+        System.out.println(a);
     }
     @Override
     public BeanA call() throws Exception {
