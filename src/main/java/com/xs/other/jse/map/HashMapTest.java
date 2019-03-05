@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class HashMapTest implements Runnable {
-    private static Map<String, String> map = new HashMap<>();
+    private static HashMap<String, String> map = new HashMap<>();
     private Integer index;
     private CyclicBarrier barrier;
     public HashMapTest(Integer index, CyclicBarrier barrier) {
@@ -44,7 +44,8 @@ public class HashMapTest implements Runnable {
         } catch (BrokenBarrierException e) {
             e.printStackTrace();
         }
+        long curTime = System.nanoTime();
         map.put(index + "", Thread.currentThread().getName());
-        System.out.println("put:i=" + index + ";value=" + Thread.currentThread().getName());
+        System.out.println("put:i=" + index + ";value=" + Thread.currentThread().getName() + ";time=" + (System.nanoTime() - curTime));
     }
 }
