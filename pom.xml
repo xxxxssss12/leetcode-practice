@@ -81,6 +81,11 @@
             <artifactId>rocketmq-client</artifactId>
             <version>3.5.8</version>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>1.7.25</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>leetcode-practice</finalName>

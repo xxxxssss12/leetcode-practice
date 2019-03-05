@@ -1,4 +1,4 @@
-package com.xs.quicksort;
+package com.xs.sorts.quicksort;
 
 import com.alibaba.fastjson.JSON;
 
