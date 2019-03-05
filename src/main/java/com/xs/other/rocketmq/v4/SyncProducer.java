@@ -1,4 +1,4 @@
-package com.xs.rocketmq.v4;
+package com.xs.other.rocketmq.v4;
 
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;

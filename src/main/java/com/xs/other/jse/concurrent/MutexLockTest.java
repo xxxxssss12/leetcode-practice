@@ -1,4 +1,4 @@
-package com.xs.jse.concurrent;
+package com.xs.other.jse.concurrent;
 
 import java.util.concurrent.CountDownLatch;
 
