@@ -24,16 +24,13 @@ public class Producer {
         //调用start()方法启动一个producer实例
         producer.start();
         JSONObject obj = new JSONObject();
-        obj.put("consumeId",1050427421);
-        obj.put("repaymentId", 84510993);
-        obj.put("bankcardId", 5336799);
-        obj.put("investorId", 195);
-        obj.put("bussType", "HAHAHA");
-
+        obj.put("consumeId",1050941094);
+        obj.put("customerId", 30634047);
+        obj.put("investorId", 169);
         //发送10条消息到Topic为TopicTest，tag为TagA，消息内容为“Hello RocketMQ”拼接上i的值
 //        for (int i = 0; i < 1; i++) {
             try {
-                Message msg = new Message("normal_withhold_topic_beta",// topic
+                Message msg = new Message("main-process-consumeFail",// topic
                         "a",// tag
                         obj.toJSONString().getBytes()
                 );
