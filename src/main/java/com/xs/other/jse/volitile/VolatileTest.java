@@ -40,7 +40,7 @@ public class VolatileTest {
 }
 
 class Bean {
-    private boolean running ;
+    private volatile boolean running ;
 
     Bean(boolean running) {
         this.running = running;
