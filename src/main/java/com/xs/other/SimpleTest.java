@@ -1,11 +1,13 @@
 package com.xs.other;
 
+import com.alibaba.fastjson.JSON;
 import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 public class SimpleTest {
 
@@ -31,6 +33,13 @@ public class SimpleTest {
     }
 
     public static void main(String[] args) {
+        String[] str = Pattern.compile("\\s*[,]+\\s*").split("aa,bb,cc,dd");
+        System.out.println(JSON.toJSONString(str));
+        if (str != null) {
+            return;
+        } else {
+            //return;
+        }
         try {
             // 输入
             BufferedReader strin = new BufferedReader(new InputStreamReader(System.in));

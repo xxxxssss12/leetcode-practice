@@ -21,6 +21,8 @@ public class Demo {
                 arr[h] = arr[l];
                 arr[l] = temp;
                 l++;
+                System.out.println(JSON.toJSONString(arr));
+                System.out.println("l=" + (l+1) + " \th=" + (h+1) + " \tpovit=" + povit);
             }
             while(l < h && arr[l] <= povit)
                 l++;
@@ -29,11 +31,13 @@ public class Demo {
                 arr[h] = arr[l];
                 arr[l] = temp;
                 h--;
+                System.out.println(JSON.toJSONString(arr));
+                System.out.println("l=" + (l+1) + " \th=" + (h+1) + " \tpovit=" + povit);
             }
 
         }
-        System.out.println(JSON.toJSONString(arr));
-        System.out.println("l=" + (l+1) + " \th=" + (h+1) + " \tpovit=" + povit);
+//        System.out.println(JSON.toJSONString(arr));
+//        System.out.println("l=" + (l+1) + " \th=" + (h+1) + " \tpovit=" + povit);
         if(l > low)sort(arr,low,l-1);
         if(h < high)sort(arr,l+1,high);
     }
@@ -41,6 +45,7 @@ public class Demo {
     public static void main(String[] args) {
         int n=10;
         int[] arr = randomArr(n);
+        System.out.println(JSON.toJSONString(arr));
         sort(arr, 0, n-1);
         System.out.println(JSON.toJSONString(arr));
     }
