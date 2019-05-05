@@ -19,10 +19,10 @@ public class Consumer {
 
         //声明并初始化一个consumer
         //需要一个consumer group名字作为构造方法的参数，这里为xs-local
-        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("xs-local");
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("xs_local");
 
         //同样也要设置NameServer地址
-        consumer.setNamesrvAddr("");
+        consumer.setNamesrvAddr("118.31.75.61:9876");
 
         //这里设置的是一个consumer的消费策略
         //CONSUME_FROM_LAST_OFFSET 默认策略，从该队列最尾开始消费，即跳过历史消息
@@ -35,6 +35,7 @@ public class Consumer {
         System.out.println("subscribe :xs-topic-test");
         consumer.subscribe("xs-topic-test-hehehe", "*");
         System.out.println("subscribe :xs-topic-test-hehehe");
+        consumer.subscribe("TopicTest", "*");
         //设置一个Listener，主要进行消息的逻辑处理
         consumer.registerMessageListener(
         (MessageListenerConcurrently) (msgs, context) -> {
