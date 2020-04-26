@@ -2,6 +2,8 @@ package com.xs.other.lru;
 
 import com.alibaba.fastjson.JSON;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
 /**
  * @author xs
  * create time:2020-04-19 17:06
