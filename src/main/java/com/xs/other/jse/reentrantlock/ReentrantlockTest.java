@@ -13,7 +13,8 @@ public class ReentrantlockTest {
             new ArrayBlockingQueue<Runnable>(10),
             new MyThreadFactory("test"), new ThreadPoolExecutor.AbortPolicy());
     private static int count = 0;
-    public static void main(String[] args) {
+    private static CountDownLatch countDownLatch = new CountDownLatch(10);
+    public static void main(String[] args) throws InterruptedException {
         final ReentrantLock lock = new ReentrantLock(false);
         for (int i=0; i<10; i++) {
             pool.submit(() -> {
@@ -25,8 +26,11 @@ public class ReentrantlockTest {
                     e.printStackTrace();
                 } finally {
                     lock.unlock();
+                    countDownLatch.countDown();
                 }
             });
         }
+        countDownLatch.await();
+        pool.shutdown();
     }
 }
