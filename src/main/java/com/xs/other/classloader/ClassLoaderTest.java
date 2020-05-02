@@ -15,6 +15,5 @@ public class ClassLoaderTest {
         aClass.getConstructor().newInstance();
         System.out.println("-----");
         Class<?> bClass = Class.forName("com.xs.other.classloader.BeanAAA");
-        Class<?> cClass = Class.forName("com.xs.other.classloader.BeanAAA");
     }
 }
