@@ -1,5 +1,9 @@
 # 扔鸡蛋
 
+[toc]
+
+## 问题描述
+
 你将获得 K 个鸡蛋，并可以使用一栋从 1 到 N  共有 N 层楼的建筑。
 
 每个蛋的功能都是一样的，如果一个蛋碎了，你就不能再把它掉下去。
@@ -73,7 +77,190 @@
 
 那么得到策略是，如果有X个鸡蛋，x-1个鸡蛋用来二分，最后一个鸡蛋从下界一直扔到上界，即最多需要扔这么多次确认最终结果
 
-拿第三个样例试试
+**(其实这是错误的)**
 
-k=3，n=14的情况下。
-// TODO
+### 100层楼，2个鸡蛋
+```
+求方程f(100,2)
+```
+
+假设第一个鸡蛋在x楼扔，会有两种情况（碎了/没碎）
+
+* 碎了
+
+此时第二个鸡蛋需要从1扔到x-1，那么一共是扔x次，f(100,2) = x
+
+* 没碎
+
+此时f(100,2) = f(100-x, 2) + 1
+
+合并两种情况，得
+
+f(100,2) = MIN(max(f(100-x, 2) + 1, x)), 1<= x <= 100, x为整数
+
+先求f(a, 2)，1<=a<=100。
+f(1,2) = 1
+f(2,2) = max(f(1, 2) + 1, 1) = 2
+f(3,2) = min(max(f(2,2) + 1, 1), max(f(1,2) + 1, 2)) = 2
+f(4,2) = xxx
+写个程序跑一下试试
+
+```java
+public class PreSolution {
+
+    /**
+      * 只有两个鸡蛋哦
+      */
+    public int superEggDrop(int m) {
+        int[] result = new int[m+1];
+        result[0] = 1;
+        result[1] = 1;
+        for (int i=2; i<=m; i++) {
+            result[i] = getMin(result, i);
+        }
+        return result[m];
+    }
+
+    /**
+      * @param i 第i层楼
+      */
+    private int getMin(int[] result, int i) {
+        int min = Integer.MAX_VALUE; // min = MIN(max(f(i-x, 2) + 1, x)), 1<= x <= i, x为整数
+        for (int x=1; x <= i; x++) {
+            int count1 = -1; // count1 = f(x,2) + 1
+            if (i-x > 0) {
+                count1 = result[i-x] + 1;
+            }
+            int singleResult = Math.max(x, count1);
+            if (min > singleResult) {
+                min = singleResult;
+            }
+        }
+        return min;
+    }
+
+    public static void main(String[] args) {
+        PreSolution preSolution = new PreSolution();
+        System.out.println(preSolution.superEggDrop(100));
+    }
+}
+```
+
+得到x=14。
+
+### m层楼，n个鸡蛋
+
+改进一下上边的公式可得：
+```
+第一次在x层楼扔
+碎了：f(x-1, n-1) + 1
+没碎：f(m-x, n) + 1
+f(m,n) = MIN(max(f(m-x, n) + 1, f(x-1, n-1) + 1)), 1<=x<=m, x为整数 
+```
+
+改进一下上面的代码可得：
+```java
+public class Solution {
+
+    int[] result;
+    int[] lessOneEggResult;
+
+    /**
+     *
+     * @param K 鸡蛋数量
+     * @param N 楼层数量
+     * @return
+     */
+    public int superEggDrop(int K, int N) {
+        init(N);
+        for (int i=2; i<=K; i++) {
+            lessOneEggResult = result;
+            result = new int[N+1];
+            result[1] = 1;
+            for (int j=2; j<=N; j++) {
+                result[j] = getMin(j);
+            }
+        }
+        return result[N];
+    }
+
+    /**
+     * 只有一个鸡蛋的数据处理（初始化）
+     * @param n 楼层数量
+     */
+    private void init(int n) {
+        result = new int[n + 1];
+        result[0] = 1;
+        for (int i=1; i<=n; i++) {
+            result[i] = i;
+        }
+    }
+
+    /**
+     * @param j 第j层楼
+     */
+    private int getMin(int j) {
+        int min = Integer.MAX_VALUE; // min = MIN(max(f(j-x, n) + 1, f(j-1, n-1) + 1)), 1<=x<=m, x为整数
+        for (int x=1; x <= j; x++) {
+            int countBroke = -1; // 碎了：countBroke = f(x-1, n-1) + 1
+            int countNoBroke = -1;  // 没碎：countNoBroke = f(j-x, n) + 1
+            if (j-x > 0) {
+                countNoBroke = result[j-x] + 1;
+            }
+            if (x-1 > 0) {
+                countBroke = lessOneEggResult[x-1] + 1;
+            }
+            int singleResult = Math.max(countBroke, countNoBroke);
+            if (min > singleResult) {
+                min = singleResult;
+            }
+        }
+        return min;
+    }
+}
+```
+
+这样的时间复杂度是O(K*N*N)。在LeetCode过这个用例过不去（K=9, N=10000）
+
+有木有更优解呢
+
+## 思路2-amazing
+
+找找规律。
+
+如果把f(50, 4)的表格画出来，会是什么样的？
+```
+有1个鸡蛋: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50]
+有2个鸡蛋: [1,2,2,3,3,3,4,4,4,4,5,5,5,5,5,6,6,6,6,6,6,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8,9,9,9,9,9,9,9,9,9,10,10,10,10,10]
+有3个鸡蛋: [1,2,2,3,3,3,3,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7]
+有4个鸡蛋: [1,2,2,3,3,3,3,4,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6]
+```
+
+可以发现，所需要扔的最小次数，是随着楼层升高而递增的！（废话）
+转换一下思路：
+
+* 有1个鸡蛋，扔5次可以判断的最大楼层是？5
+* 有2个鸡蛋，扔5次可以判断的最大楼层是？15
+* 有3个鸡蛋，扔5次可以判断的最大楼层是？25
+* 有4个鸡蛋，扔5次可以判断的最大楼层是？30
+
+n个鸡蛋，测试m次(简记为D(n,m))，最大可以解决几层楼的问题，可得如下结论：
+1. D(1,m) = m
+2. D(n,n) = 2^n - 1
+3. D(n,m) {m <= n} = D(m,m)
+
+对于第二点，以D(4,4)为例，我们第1次在8楼扔下鸡蛋，如果碎了，则第二次在4楼扔下鸡蛋，否则在12楼扔下鸡蛋，对于在4楼扔下鸡蛋的情况，之后可以分别在2楼或者6楼扔下鸡蛋，如此进行，就可以找到答案楼层，方法与二分查找一样。例如答案楼层是5的情况，测试序列为8，4，6，5。
+
+对于第三点，如果有5个鸡蛋让你测试3次，即使三次测试鸡蛋都碎了，剩下的2个鸡蛋也派不上用场，所以D(5,3) = D(3,3)
+
+发现这些关系之后，我们似乎找到解决n个鸡蛋测试m次最大能够解决楼层数的方法。
+对于D(n,m){n < m}而言，对于其能够测试的最大楼层数k，我们可以构造这样的场景：
+
+* 将第一颗鸡蛋仍在楼层i，使得第i + 1层到第k层是D(n,m-1)可以解决的最大楼层数。
+* 第1层到第i - 1层是D(n-1,m-1)可以解决的最大楼层数。
+* 由此得到递推关系D(n,m) = D(n -1,m-1) + 1 + D(n,m-1)
+* 然后对D(n,m-1),D(n-1,m-1)再按照上述公式分解，直到得出刚才所列的三种可计算情况（n = 1，或者m <= n）为止，再进行回溯累加，就可以得到D(n,m)的值
+
+---
+
+未完待续！
