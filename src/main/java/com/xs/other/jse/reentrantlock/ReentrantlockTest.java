@@ -14,7 +14,7 @@ public class ReentrantlockTest {
             new MyThreadFactory("test"), new ThreadPoolExecutor.AbortPolicy());
     private static int count = 0;
     private static CountDownLatch countDownLatch = new CountDownLatch(10);
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws Exception {
         final ReentrantLock lock = new ReentrantLock(false);
         for (int i=0; i<10; i++) {
             pool.submit(() -> {
