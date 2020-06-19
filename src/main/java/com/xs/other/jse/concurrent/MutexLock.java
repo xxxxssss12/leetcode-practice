@@ -7,6 +7,7 @@ import java.util.concurrent.locks.AbstractQueuedSynchronizer;
  */
 public class MutexLock {
     static class Sync extends AbstractQueuedSynchronizer {
+
         public Sync() {setState(100);}
 
         @Override
@@ -22,6 +23,7 @@ public class MutexLock {
     }
 
     private final Sync sync = new Sync();
+
     public void lock() {
         sync.acquire(0);
     }

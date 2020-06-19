@@ -1,6 +1,7 @@
 package com.xs.other.jse.countdownlatch;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
 
 public class ChildThread implements Runnable {
     private CountDownLatch latch;
