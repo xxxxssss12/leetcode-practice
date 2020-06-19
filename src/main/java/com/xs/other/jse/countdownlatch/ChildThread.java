@@ -10,7 +10,6 @@ public class ChildThread implements Runnable {
     }
     @Override
     public void run() {
-        CyclicBarrier
         System.out.println("线程:" + Thread.currentThread().getName() + "...启动...");
         try {
             Thread.sleep(10000);
