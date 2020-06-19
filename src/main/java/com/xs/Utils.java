@@ -42,10 +42,10 @@ public class Utils {
         }
     }
 
-    public static ThreadPoolExecutor generatorExecutor(int threadNumbers, String threadName) {
+    public static ThreadPoolExecutor generatorExecutor(int threadNumbers, String threadGroupName) {
         return new ThreadPoolExecutor(threadNumbers, threadNumbers, 0, TimeUnit.SECONDS,
                 new ArrayBlockingQueue<Runnable>(threadNumbers),
-                new MyThreadFactory(StringUtils.isEmpty(threadName) ? "test" : threadName), new ThreadPoolExecutor.AbortPolicy());
+                new MyThreadFactory(StringUtils.isEmpty(threadGroupName) ? "test" : threadGroupName), new ThreadPoolExecutor.AbortPolicy());
     }
 
     public static String byteToBinaryStr(byte data) {
