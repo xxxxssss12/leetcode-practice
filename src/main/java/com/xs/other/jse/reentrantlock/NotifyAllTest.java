@@ -25,6 +25,10 @@ public class NotifyAllTest {
 
         public void notify_all() {
             condition.signalAll();
+            System.out.println("signalOver");
+        }
+        protected boolean isHeldExclusively() {
+            return true;
         }
     }
 
