@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class MyCbTest {
     public static void main(String[] args) throws InterruptedException {
         ThreadPoolExecutor executor = Utils.generatorExecutor(10, "cbTest");
-        MyCb cb = new MyCb(10, true);
+        MyCb2 cb = new MyCb2(10, false);
         for (int i=0; i<10; i++) {
             executor.execute(() -> {
                 System.out.println(Thread.currentThread().getName() + "----start");
