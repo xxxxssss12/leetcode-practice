@@ -14,8 +14,6 @@ import java.util.concurrent.Executors;
 public class TransmitableThreadLocalTest {
     private static ExecutorService executor = TtlExecutors.getTtlExecutorService(Utils.generatorExecutor(10, "a"));
 
-//    public static final TransmittableThreadLocal<String> context = new TransmittableThreadLocal<String>();
-//    public static final ThreadLocal<String> context = new ThreadLocal<String>();
     public static final TransmittableThreadLocal<String> context = new TransmittableThreadLocal<String>();
     public static void main(String[] args) throws InterruptedException {
         TransmitableThreadLocalTest test = new TransmitableThreadLocalTest();
