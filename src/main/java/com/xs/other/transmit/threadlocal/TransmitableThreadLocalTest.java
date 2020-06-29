@@ -15,6 +15,8 @@ public class TransmitableThreadLocalTest {
     private static ExecutorService executor = TtlExecutors.getTtlExecutorService(Utils.generatorExecutor(10, "a"));
 
     public static final TransmittableThreadLocal<String> context = new TransmittableThreadLocal<String>();
+    public static final TransmittableThreadLocal<String> context1 = new TransmittableThreadLocal<String>();
+
     public static void main(String[] args) throws InterruptedException {
         TransmitableThreadLocalTest test = new TransmitableThreadLocalTest();
 
@@ -22,10 +24,11 @@ public class TransmitableThreadLocalTest {
             int i =0;
             for (;;) {
                 context.set("t1-" + (++i));
+                context1.set("!!!-" + i);
                 System.out.println(context.get());
                 for (int j = 0; j < 10; j++) {
                     executor.execute(() -> {
-                        System.out.println(Thread.currentThread().getName() + "...context=" + context.get());
+                        System.out.println(Thread.currentThread().getName() + "...context=" + context.get() + ";;" + context1.get());
                     });
                 }
                 try {
@@ -41,6 +44,7 @@ public class TransmitableThreadLocalTest {
             int i =10000;
             for (;;) {
                 context.set("t2-" + (++i));
+                context1.set("@@@-" + i);
                 System.out.println(context.get());
                 for (int j = 0; j < 10; j++) {
                     executor.execute(() -> {
