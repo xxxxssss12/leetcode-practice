@@ -5,7 +5,7 @@ import com.xs.MyThreadFactory;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ReentrantlockTest {
+public class ReentrantlockTest1 {
 
     private static Object lock = new Object();
 
@@ -20,7 +20,7 @@ public class ReentrantlockTest {
             pool.submit(() -> {
                 try {
                     lock.lock();
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                     count += 5;
                     System.out.println("Thread=" + Thread.currentThread().getName() + ";..." + count);
                 } catch (Exception e) {

@@ -6,6 +6,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Random;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -45,7 +46,9 @@ public class Utils {
     public static ThreadPoolExecutor generatorExecutor(int threadNumbers, String threadGroupName) {
         return new ThreadPoolExecutor(threadNumbers, threadNumbers, 0, TimeUnit.SECONDS,
                 new ArrayBlockingQueue<Runnable>(threadNumbers),
-                new MyThreadFactory(StringUtils.isEmpty(threadGroupName) ? "test" : threadGroupName), new ThreadPoolExecutor.AbortPolicy());
+                new MyThreadFactory(StringUtils.isEmpty(threadGroupName) ? "test" : threadGroupName), (r, executor) -> {
+            System.out.println("abort！！！！");
+                });
     }
 
     public static String byteToBinaryStr(byte data) {
@@ -62,4 +65,5 @@ public class Utils {
         }
         return sb.toString();
     }
+
 }
