@@ -44,21 +44,15 @@ public class Practice2 {
     }
 
     public static void main(String[] args) throws Exception {
-        Object flags = ManagementFactory.getPlatformMBeanServer().invoke(
-                ObjectName.getInstance("com.sun.management:type=DiagnosticCommand"),
-                "vmFlags", new Object[] { null }, new String[] { "[Ljava.lang.String;" });
-        for(String f: ((String)flags).split("\\s+"))
-            if(f.contains("GC")) System.out.println(f);
-        for(GarbageCollectorMXBean gc: ManagementFactory.getGarbageCollectorMXBeans())
-            System.out.printf("%-20s%s%n", gc.getName(), Arrays.toString(gc.getMemoryPoolNames()));
-//        for (int i=0; i<10; i++) {
-//            int[] nums = Utils.createNums(30, 999, true);
-////            nums = new int[]{2,3,1};
-//            System.out.print("ori :");
-//            Utils.println(nums);
-//            quickSort(nums, 0, nums.length - 1);
-//            System.out.print("over:");
-//            Utils.println(nums);
-//        }
+
+        for (int i=0; i<10; i++) {
+            int[] nums = Utils.createNums(30, 999, true);
+            nums = new int[]{3,1,4,2,6,9,8,0};
+            System.out.print("ori :");
+            Utils.println(nums);
+            quickSort(nums, 0, nums.length - 1);
+            System.out.print("over:");
+            Utils.println(nums);
+        }
     }
 }
