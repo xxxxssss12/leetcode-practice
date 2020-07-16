@@ -22,14 +22,21 @@ public class BinaryMaxWay {
 
     private void printMap(Map<Node<?>, WayHolder> map) {
         StringBuilder sb = new StringBuilder("{");
+        sb.append("\n");
 
         for (Node<?> key : map.keySet()) {
             sb.append(key.getData().toString()).append(":").append(JSON.toJSONString(map.get(key))).append(",");
+            sb.append("\n");
         }
-        sb.replace(sb.length()-1, sb.length(), "}");
+        sb.replace(sb.length()-2, sb.length()-1, "").append("}");
         System.out.println(sb.toString());
     }
 
+    /**
+     * 深度优先获取当前子树的最大深度
+     * @param node
+     * @return
+     */
     private Integer dfsGet(Node<?> node) {
         WayHolder holder = new WayHolder();
         holder.maxWayLeft = 0;
