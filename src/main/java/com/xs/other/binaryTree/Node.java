@@ -6,8 +6,22 @@ public class Node<T> {
     @JSONField(serialize=false,deserialize=false)
     private Node<T> father;
     private T data;
+    private int pos = 0;    // node的下标
     private Node<T> leftChild;
     private Node<T> rightChild;
+
+    public Node() {
+    }
+    public Node(T data) {
+        this.data = data;
+    }
+    public int getPos() {
+        return pos;
+    }
+
+    public void setPos(int pos) {
+        this.pos = pos;
+    }
 
     public Node<T> getFather() {
         return father;
@@ -30,6 +44,9 @@ public class Node<T> {
     }
 
     public void setLeftChild(Node<T> leftChild) {
+        if (leftChild != null) {
+            leftChild.pos = this.pos * 2 + 1;
+        }
         this.leftChild = leftChild;
     }
 
@@ -38,6 +55,9 @@ public class Node<T> {
     }
 
     public void setRightChild(Node<T> rightChild) {
+        if (rightChild != null) {
+            rightChild.pos = this.pos * 2 + 2;
+        }
         this.rightChild = rightChild;
     }
 }
