@@ -45,9 +45,9 @@ public class Utils {
 
     public static ThreadPoolExecutor generatorExecutor(int threadNumbers, String threadGroupName) {
         return new ThreadPoolExecutor(threadNumbers, threadNumbers, 0, TimeUnit.SECONDS,
-                new ArrayBlockingQueue<Runnable>(threadNumbers),
+                new SynchronousQueue<>(),
                 new MyThreadFactory(StringUtils.isEmpty(threadGroupName) ? "test" : threadGroupName), (r, executor) -> {
-            System.out.println("abort！！！！");
+            System.out.println(Thread.currentThread().getName() + " abort！！！！");
                 });
     }
 
