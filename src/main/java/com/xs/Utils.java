@@ -5,10 +5,7 @@ import com.xs.other.map.BitMap;
 import org.springframework.util.StringUtils;
 
 import java.util.Random;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.RejectedExecutionHandler;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Created by xs on 2019/4/12
@@ -20,17 +17,20 @@ public class Utils {
     }
 
     public static int[] createNums(int n, int bound, boolean isAbs) {
-        Random ran = new Random();
         int[] arr = new int[n];
         for (int i=0; i<n; i++) {
             if (!isAbs) {
-                arr[i] = ran.nextInt(bound) - (bound / 2);
+                arr[i] = ran().nextInt(bound) - (bound / 2);
             } else {
-                arr[i] = ran.nextInt(bound);
+                arr[i] = ran().nextInt(bound);
             }
         }
         System.out.println(JSON.toJSONString(arr));
         return arr;
+    }
+
+    private static Random ran() {
+        return ThreadLocalRandom.current();
     }
 
 
@@ -45,9 +45,9 @@ public class Utils {
 
     public static ThreadPoolExecutor generatorExecutor(int threadNumbers, String threadGroupName) {
         return new ThreadPoolExecutor(threadNumbers, threadNumbers, 0, TimeUnit.SECONDS,
-                new ArrayBlockingQueue<Runnable>(threadNumbers),
-                    new MyThreadFactory(StringUtils.isEmpty(threadGroupName) ? "test" : threadGroupName), (r, executor) -> {
-            System.out.println("abort！！！！");
+                new SynchronousQueue<>(),
+                new MyThreadFactory(StringUtils.isEmpty(threadGroupName) ? "test" : threadGroupName), (r, executor) -> {
+            System.out.println(Thread.currentThread().getName() + " abort！！！！");
                 });
     }
 
@@ -65,5 +65,14 @@ public class Utils {
         }
         return sb.toString();
     }
+
+    public static int random(int bound, boolean isAbs) {
+        if (!isAbs) {
+            return ran().nextInt(bound) - (bound / 2);
+        } else {
+            return ran().nextInt(bound);
+        }
+    }
+
 
 }
