@@ -54,7 +54,7 @@ public class Yuesefuhuan {
         return head;
     }
 
-    class Point {
+    static class Point {
         int data;
         Point prev;
         Point next;
