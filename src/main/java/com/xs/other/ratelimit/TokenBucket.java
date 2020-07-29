@@ -16,9 +16,9 @@ public class TokenBucket {
     private final double unitAddNum;    // 单位时间（1s）往桶中放令牌数量
     private final long maxTokenNum;      // 桶中最大有多少令牌
 
-    private long currentTokenCount = 0;  // 当前桶中有多少令牌
-    private long nextRefreshTime = 0L;  // 下一次刷新桶中令牌数量的时间戳
-    private long lastAcquireTime;       // 上一次从桶中获取令牌的时间戳（貌似用不到）
+    private volatile long currentTokenCount = 0;  // 当前桶中有多少令牌
+    private volatile long nextRefreshTime = 0L;  // 下一次刷新桶中令牌数量的时间戳
+    private volatile long lastAcquireTime;       // 上一次从桶中获取令牌的时间戳（貌似用不到）
 
     /**
      *
@@ -115,10 +115,22 @@ public class TokenBucket {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        TokenBucket tokenBucket = new TokenBucket(3D, 3, true);
+        TokenBucket tokenBucket = new TokenBucket(1000D, 1000, true);
+        int succCount = 0;
+        int failCount = 0;
+        long startTime = System.currentTimeMillis();
+        for (int i=0; i<3000; i++) {
+            if (tokenBucket.acquire(1)) {
+                succCount++;
+            } else {
+                failCount++;
+            }
+        }
+        System.out.println("耗时：" + (System.currentTimeMillis() - startTime) + "ms; succCount=" + succCount + "; failCount=" + failCount);
+        tokenBucket = new TokenBucket(1D, 1, true);
         for (int i=0; i<10; i++) {
-            System.out.println(tokenBucket.acquire(2));
-//            Thread.sleep(333);
+            System.out.println(tokenBucket.acquire(1));
+            Thread.sleep(500);
         }
     }
 }
