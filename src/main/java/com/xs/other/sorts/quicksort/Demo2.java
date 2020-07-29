@@ -20,7 +20,7 @@ public class Demo2 {
         int end = high;
         int key = a[low];
 
-
+        // 12,20,5,16,15,1,30,45,23,9, low = 0, high = 9
         while(end>start){
             //从后往前比较
             while(end>start && a[end]>=key)  //如果没有比关键值小的，比较下一个，直到有比关键值小的交换位置，然后又从前往后比较
@@ -30,6 +30,7 @@ public class Demo2 {
                 a[end] = a[start];
                 a[start] = temp;
             }
+            // 9, 20, 5, 16, 15, 1, 30, 45, 23, 12 low = 0, high = 9
             //从前往后比较
             while(end>start&&a[start]<=key)//如果没有比关键值大的，比较下一个，直到有比关键值大的交换位置
                 start++;
