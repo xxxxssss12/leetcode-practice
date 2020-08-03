@@ -5,7 +5,7 @@ import com.xs.Utils;
 
 public class Practice {
     public static void main(String[] args) {
-        int[] nums = Utils.createNums(10, 100);
+        int[] nums = Utils.createNums(10, 100, true);
         System.out.println(JSON.toJSONString(nums));
         quickSort(nums, 0, nums.length - 1);
         System.out.println(JSON.toJSONString(nums));
@@ -43,6 +43,7 @@ public class Practice {
                 nums[low] = nums[high];
                 nums[high] = tmp;
             }
+            System.out.println("base=" + base + ";" + JSON.toJSONString(nums));
         }
         if (start < low - 1) quickSort(nums, start, low - 1);
         if (end > low + 1) quickSort(nums, low + 1, end);

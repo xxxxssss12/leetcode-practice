@@ -25,7 +25,6 @@ public class Utils {
                 arr[i] = ran().nextInt(bound);
             }
         }
-        System.out.println(JSON.toJSONString(arr));
         return arr;
     }
 
