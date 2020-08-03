@@ -1,15 +1,16 @@
-package com.xs.other.rocketmq;
+package com.xs.other.rocketmq.v4;
 
-import com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer;
-import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
-import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently;
-import com.alibaba.rocketmq.client.exception.MQClientException;
-import com.alibaba.rocketmq.common.consumer.ConsumeFromWhere;
-import com.alibaba.rocketmq.common.message.MessageExt;
-import com.alibaba.rocketmq.remoting.common.RemotingHelper;
+import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
+import org.apache.rocketmq.common.message.MessageExt;
+import org.apache.rocketmq.remoting.common.RemotingHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+
 
 /**
  * Created by xs on 2018/9/12
@@ -19,23 +20,23 @@ public class Consumer {
 
         //声明并初始化一个consumer
         //需要一个consumer group名字作为构造方法的参数，这里为xs-local
-        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("xs_local");
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("xs_local_2");
 
         //同样也要设置NameServer地址
-        consumer.setNamesrvAddr("118.31.75.61:9876");
+        consumer.setNamesrvAddr("localhost:9876");
 
         //这里设置的是一个consumer的消费策略
         //CONSUME_FROM_LAST_OFFSET 默认策略，从该队列最尾开始消费，即跳过历史消息
         //CONSUME_FROM_FIRST_OFFSET 从队列最开始开始消费，即历史消息（还储存在broker的）全部消费一遍
         //CONSUME_FROM_TIMESTAMP 从某个时间点开始消费，和setConsumeTimestamp()配合使用，默认是半个小时以前
-        consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
+        consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
 
         //设置consumer所订阅的Topic和Tag，*代表全部的Tag
-        consumer.subscribe("xs-topic-test", "*");
-        System.out.println("subscribe :xs-topic-test");
-        consumer.subscribe("xs-topic-test-hehehe", "*");
-        System.out.println("subscribe :xs-topic-test-hehehe");
-        consumer.subscribe("TopicTest", "*");
+//        consumer.subscribe("xs-topic-test", "*");
+//        System.out.println("subscribe :xs-topic-test");
+//        consumer.subscribe("xs-topic-test-hehehe", "*");
+//        System.out.println("subscribe :xs-topic-test-hehehe");
+        consumer.subscribe("TopicTest_1", "*");
         //设置一个Listener，主要进行消息的逻辑处理
         consumer.registerMessageListener(
         (MessageListenerConcurrently) (msgs, context) -> {
