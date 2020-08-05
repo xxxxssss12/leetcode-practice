@@ -25,7 +25,6 @@ public class Utils {
                 arr[i] = ran().nextInt(bound);
             }
         }
-        System.out.println(JSON.toJSONString(arr));
         return arr;
     }
 
@@ -75,4 +74,10 @@ public class Utils {
     }
 
 
+    public static String null2Str(Object obj) {
+        if (obj == null) {
+            return "";
+        }
+        return obj.toString();
+    }
 }

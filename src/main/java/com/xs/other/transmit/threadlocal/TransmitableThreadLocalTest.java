@@ -12,7 +12,7 @@ import java.util.concurrent.Executors;
  * Created by xs on 2019/4/29
  */
 public class TransmitableThreadLocalTest {
-    private static ExecutorService executor = TtlExecutors.getTtlExecutorService(Utils.generatorExecutor(10, "a"));
+    private static final ExecutorService executor = TtlExecutors.getTtlExecutorService(Utils.generatorExecutor(10, "a"));
 
     public static final TransmittableThreadLocal<String> context = new TransmittableThreadLocal<String>();
     public static final TransmittableThreadLocal<String> context1 = new TransmittableThreadLocal<String>();
