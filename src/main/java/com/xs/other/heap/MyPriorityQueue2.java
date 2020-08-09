@@ -2,6 +2,7 @@ package com.xs.other.heap;
 
 import com.xs.Utils;
 
+import java.util.Random;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -137,15 +138,23 @@ public class MyPriorityQueue2 {
         }
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        int[] nums = Utils.createNums(10, 100, true);
+    public static void main(String[] args) {
         MyPriorityQueue2 queue = new MyPriorityQueue2(10);
-        for (int num : nums) {
-            queue.add(num);
+        Random ran = new Random();
+        queue.add(ran.nextInt(1000));
+        queue.add(ran.nextInt(1000));
+        queue.add(ran.nextInt(1000));
+        queue.add(ran.nextInt(1000));
+        queue.add(ran.nextInt(1000));
+        queue.add(ran.nextInt(1000));
+        queue.add(ran.nextInt(1000));
+        queue.add(ran.nextInt(1000));
+        queue.add(ran.nextInt(1000));
+        queue.add(ran.nextInt(1000));
+        Integer value = null;
+        while((value = queue.poll()) != null) {
+            System.out.println(value);
         }
-        for (int i=0; i<nums.length; i++ ) {
-            System.out.println(queue.poll());
-        }
-        Thread.sleep(1000);
+
     }
 }

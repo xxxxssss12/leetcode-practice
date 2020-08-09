@@ -1,5 +1,6 @@
 package com.xs.other.ratelimit;
 
+import com.xs.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.impl.StaticLoggerBinder;
@@ -42,7 +43,11 @@ public class TokenBucket {
         }
         this.nextRefreshTime = calculateNextRefreshTime(System.currentTimeMillis());
         log.debug("init over!unitAddNum={}, maxTokenNum={}, currentTokenCount={}, nexRefreshTime={}",
-                this.unitAddNum, this.maxTokenNum, this.currentTokenCount, this.nextRefreshTime);
+                Utils.null2Str(this.unitAddNum),
+                Utils.null2Str(this.maxTokenNum),
+                Utils.null2Str(this.currentTokenCount),
+                Utils.null2Str(this.nextRefreshTime)
+        );
     }
 
     public boolean acquire(long needTokenNum) {

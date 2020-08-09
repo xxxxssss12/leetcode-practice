@@ -74,4 +74,10 @@ public class Utils {
     }
 
 
+    public static String null2Str(Object obj) {
+        if (obj == null) {
+            return "";
+        }
+        return obj.toString();
+    }
 }
