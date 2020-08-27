@@ -23,7 +23,7 @@ public class Consumer1 {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("xs_local");
 
         //同样也要设置NameServer地址
-        consumer.setNamesrvAddr("localhost:9876");
+        consumer.setNamesrvAddr("10.6.24.99:9876");
 
         //这里设置的是一个consumer的消费策略
         //CONSUME_FROM_LAST_OFFSET 默认策略，从该队列最尾开始消费，即跳过历史消息
@@ -36,7 +36,7 @@ public class Consumer1 {
 //        System.out.println("subscribe :xs-topic-test");
 //        consumer.subscribe("xs-topic-test-hehehe", "*");
 //        System.out.println("subscribe :xs-topic-test-hehehe");
-        consumer.subscribe("TopicTest_1", "*");
+        consumer.subscribe("TopicTest_2", "*");
         //设置一个Listener，主要进行消息的逻辑处理
         consumer.registerMessageListener(
         (MessageListenerConcurrently) (msgs, context) -> {
