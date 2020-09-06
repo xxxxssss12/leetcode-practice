@@ -20,19 +20,33 @@ public class SyncProducer {
         producer.setNamesrvAddr("localhost:9876");
         //Launch the instance.
         producer.start();
-        for (int i=56225;; i++) {
-            //Create a message instance, specifying topic, tag and message body.
-            Message msg = new Message("TopicTest_1" /* Topic */,
-                    "TagA" /* Tag */,
-                    ("Hello RocketMQ " +
-                            (i)).getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
-            );
-            //Call send message to deliver message to one of brokers.
-            SendResult sendResult = producer.send(msg);
-            System.out.printf("%s%n", sendResult);
-            Thread.sleep(1000);
-        }
+        Message msg = new Message("TopicTest_2" /* Topic */,
+                "TagA" /* Tag */,
+                ("Hello RocketMQ " +
+                        (1)).getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
+        );
+        SendResult sendResult = producer.send(msg);
+        System.out.printf("%s%n", sendResult);
+        msg = new Message("TopicTest_2" /* Topic */,
+                "TagA" /* Tag */,
+                ("Hello RocketMQ " +
+                        (2)).getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
+        );
+        sendResult = producer.send(msg);
+        System.out.printf("%s%n", sendResult);
+//        for (int i=56225;; i++) {
+//            //Create a message instance, specifying topic, tag and message body.
+//            Message msg = new Message("TopicTest_1" /* Topic */,
+//                    "TagA" /* Tag */,
+//                    ("Hello RocketMQ " +
+//                            (i)).getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
+//            );
+//            //Call send message to deliver message to one of brokers.
+//            SendResult sendResult = producer.send(msg);
+//            System.out.printf("%s%n", sendResult);
+//            Thread.sleep(1000);
+//        }
         //Shut down once the producer instance is not longer in use.
-//        producer.shutdown();
+        producer.shutdown();
     }
 }

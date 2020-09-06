@@ -27,9 +27,7 @@ public class TransmitableThreadLocalTest {
                 context1.set("!!!-" + i);
                 System.out.println(context.get());
                 for (int j = 0; j < 10; j++) {
-                    executor.execute(() -> {
-                        System.out.println(Thread.currentThread().getName() + "...context=" + context.get() + ";;" + context1.get());
-                    });
+                    executor.execute(() -> System.out.println(Thread.currentThread().getName() + "...context=" + context.get() + ";;" + context1.get()));
                 }
                 try {
                     Thread.sleep(10000);
