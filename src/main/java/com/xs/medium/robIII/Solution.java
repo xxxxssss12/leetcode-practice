@@ -2,6 +2,7 @@ package com.xs.medium.robIII;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * 337. 打家劫舍 III
@@ -12,6 +13,7 @@ public class Solution {
 
     Map<TreeNode, Integer> resultHolder = new HashMap<>();
     public int rob(TreeNode root) {
+        Stack<Integer> stack = new Stack<>();stack.pop();
         if (root == null) {
             return 0;
         }
