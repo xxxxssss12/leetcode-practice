@@ -3,6 +3,8 @@ import com.googlecode.pngtastic.core.PngImage;
 import com.googlecode.pngtastic.core.PngOptimizer;
 import com.idrsolutions.image.png.PngCompressor;
 import com.idrsolutions.image.png.PngEncoder;
+import net.coobird.thumbnailator.Thumbnailator;
+import net.coobird.thumbnailator.Thumbnails;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -12,9 +14,10 @@ public class PngCompress {
 
     public static void main(String[] args) throws IOException {
 //        File originFile = new File("/Users/xiongshun/Workspaces/IdeaProjects/leetcode-practice/src/com8bit.png");
-        compressTastic();
+//        compressTastic();
 //        PngCompressor.compress(originFile, new File("/Users/xiongshun/Workspaces/IdeaProjects/leetcode-practice/src/com8bit2.png"));
 //        compressNormal(originFile, new File("/Users/xiongshun/Workspaces/IdeaProjects/leetcode-practice/src/normal.png"));
+        Thumbnails.of(new File("D:/Pictures/big.png")).forceSize(500, 1000).toFile(new File("d:/Pictures/big1.png"));
     }
     private static void compressTastic() {
         try (FileInputStream input = new FileInputStream("/Users/xiongshun/Workspaces/IdeaProjects/leetcode-practice/src/touming.png")) {
@@ -28,7 +31,7 @@ public class PngCompress {
 //                originImgByte = bos.toByteArray();
 //            }
             PngOptimizer optimizer = new PngOptimizer("debug");
-            optimizer.setCompressor("zopfli", 32);
+//            optimizer.setCompressor("zopfli", 32);
             PngImage img = new PngImage(input);
             for (int i=1; i<10; i++) {
                 long start = System.currentTimeMillis();
