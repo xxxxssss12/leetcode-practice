@@ -18,6 +18,7 @@ public class PngCompress {
 //        PngCompressor.compress(originFile, new File("/Users/xiongshun/Workspaces/IdeaProjects/leetcode-practice/src/com8bit2.png"));
 //        compressNormal(originFile, new File("/Users/xiongshun/Workspaces/IdeaProjects/leetcode-practice/src/normal.png"));
         Thumbnails.of(new File("D:/Pictures/big.png")).forceSize(500, 1000).toFile(new File("d:/Pictures/big1.png"));
+
     }
     private static void compressTastic() {
         try (FileInputStream input = new FileInputStream("/Users/xiongshun/Workspaces/IdeaProjects/leetcode-practice/src/touming.png")) {
